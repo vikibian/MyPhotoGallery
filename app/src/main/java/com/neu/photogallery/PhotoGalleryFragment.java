@@ -31,6 +31,7 @@ import java.util.List;
 public class PhotoGalleryFragment  extends VisbleFragment {
 
     private static final String TAG = "PhotoGalleryFragment";
+    private GalleryItem mGalleryItem;
 
     private RecyclerView mPhotoRecyclerView;
     private List<GalleryItem> mItems = new ArrayList<>();
@@ -195,7 +196,7 @@ public class PhotoGalleryFragment  extends VisbleFragment {
         }
     }
 
-    private class PhotoHolder extends RecyclerView.ViewHolder {
+    private class PhotoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mItemImageView;
         private GalleryItem mGalleryItem;
         //private TextView mTitleTextView;
@@ -204,7 +205,7 @@ public class PhotoGalleryFragment  extends VisbleFragment {
             super(itemView);
             //mTitleTextView = (TextView) itemView;
             mItemImageView = itemView.findViewById(R.id.fragment_photo_gallery_image_view);
-            //itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
 //        public void bindGalleryItem(GalleryItem item)
@@ -217,6 +218,17 @@ public class PhotoGalleryFragment  extends VisbleFragment {
         {
             //mTitleTextView.setText(item.toString());
             mItemImageView.setImageDrawable(drawable);
+        }
+
+        public void bindGalleryItem(GalleryItem galleryItem) {
+            mGalleryItem = galleryItem;
+        }
+
+        @Override
+        public void onClick(View v) {
+//            Intent i = new Intent(Intent.ACTION_VIEW, mGalleryItem.getPhotoPageUri());
+            Intent i = PhotoPageActivity.newIntent(getActivity(), mGalleryItem.getPhotoPageUri());
+            startActivity(i);
         }
 
 //        public void bindGalleryItem2(GalleryItem galleryItem)
@@ -245,7 +257,7 @@ public class PhotoGalleryFragment  extends VisbleFragment {
         @Override
         public void onBindViewHolder(@NonNull PhotoHolder photoHolder, int i) {
             GalleryItem galleryItem = mGalleryItems.get(i);
-            //photoHolder.bindGalleryItem(galleryItem);
+            photoHolder.bindGalleryItem(galleryItem);
             Drawable placeHolder = getResources().getDrawable(R.drawable.ic_launcher_background);
             photoHolder.bindDrawabe(placeHolder);
             mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getmUrl());

@@ -123,7 +123,7 @@ public class FlickrFetchr {
                 continue;
 
             item.setmUrl(photoJsonObject.getString("url_s"));
-            //item.setmOwner(photoJsonObject.getString("owner"));
+            item.setmOwner(photoJsonObject.getString("owner"));
             items.add(item);
         }
     }
